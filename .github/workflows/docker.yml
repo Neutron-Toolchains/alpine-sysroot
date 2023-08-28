@@ -1,0 +1,36 @@
+name: Pull sysroot from Alpine:edge
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  GITHUB_USERNAME: Dakkshesh
+  GITHUB_EMAIL: dakkshesh5@gmail.com
+  GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+jobs:
+  main-job:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/neutron-projects/docker-image:arch-neutron
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: main
+        run: |
+          cd $HOME
+          git clone https://"${GITHUB_USERNAME}":"${GITHUB_TOKEN}"@github.com/Neutron-Toolchains/alpine-sysroot.git
+          cd alpine-sysroot
+          docker build -t temp_alpine .
+          docker run -d --name temp_alpine_container temp_alpine
+          rm -rf x86_64-root && mkdir x86_64-root
+          docker cp temp_alpine_container:/target-dir $HOME/alpine-sysroot/x86_64-root
+          git add x86_64-root
+          git commit --signoff -m"sysroot: x86_64: Pull latest changes"
+          git push
+          
