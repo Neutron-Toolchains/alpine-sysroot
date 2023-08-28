@@ -14,8 +14,6 @@ env:
 jobs:
   main-job:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/neutron-projects/docker-image:arch-neutron
     
     steps:
       - name: Checkout
