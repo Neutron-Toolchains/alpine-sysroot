@@ -19,6 +19,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Configuring git
+        run: |
+          git config --global user.name $GITHUB_USERNAME
+          git config --global user.email $GITHUB_EMAIL
+
       - name: main
         run: |
           cd $HOME
