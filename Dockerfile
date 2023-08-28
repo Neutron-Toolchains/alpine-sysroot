@@ -5,9 +5,9 @@ FROM alpine:edge
 RUN apk update && apk add --no-cache alpine-sdk
 
 # Create a directory to hold the copied directories
-RUN mkdir -p /target
+RUN mkdir -p /target/usr
 
 # Copy the directories from the Alpine image to the container
-COPY /usr/include /target/usr/include
-COPY /usr/lib /target/usr/lib
-COPY /usr/bin /target/usr/bin
+RUN cp -r /usr/include /target/usr/
+RUN cp -r /usr/lib /target/usr/
+RUN cp -r /usr/bin /target/usr/
